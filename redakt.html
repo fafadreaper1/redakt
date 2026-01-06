@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+
+<title>Редактор пранка</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ti-4hoksYiDI8Meio623IlaenxjNRzYQssMhj_Ze2kHIhrq2LDd6WN3XOOKKKZBObDJse1LEZDR7Ax6ysw_9-Q" charset="UTF-8"></script>
+
+<style>
+body {
+    background: #f2f4f7;
+    margin: 0;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.editor-container {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 22px;
+    border-radius: 22px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+.editor-title {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.preview-block {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.preview-block img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #fff;
+    box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+.label {
+    font-size: 15px;
+    margin: 10px 0 6px;
+    font-weight: 600;
+}
+.input-file {
+    margin-top: 6px;
+    width: 100%;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+    transition: 0.15s;
+}
+.btn-primary {
+    background: #007aff;
+    color: white;
+    width: 100%;
+    margin-top: 12px;
+}
+.btn-primary:hover {
+    background: #0062cc;
+}
+.btn-secondary {
+    background: #e5e7eb;
+    color: #333;
+    width: 48%;
+}
+.btn-secondary:hover {
+    background: #d5d7db;
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.audio-preview {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ====== ТУМБЛЕРЫ ====== */
+.modes-wrap{
+    margin-top: 18px;
+}
+.mode-switches{
+    display: grid;
+    gap: 12px;
+}
+.switch-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #f2f4f7;
+}
+.switch-title{
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+.switch{
+    position: relative;
+    width: 54px;
+    height: 32px;
+    flex: 0 0 auto;
+}
+.switch input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider{
+    position:absolute;
+    cursor:pointer;
+    inset: 0;
+    background:#d1d1d6;
+    border-radius:999px;
+    transition: .18s ease;
+}
+.slider:before{
+    content:"";
+    position:absolute;
+    height: 28px;
+    width: 28px;
+    left: 2px;
+    top: 2px;
+    background:white;
+    border-radius:50%;
+    transition: .18s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+.switch input:checked + .slider{
+    background:#34c759;
+}
+.switch input:checked + .slider:before{
+    transform: translateX(22px);
+}
+</style>
+</head>
+
+<body>
+
+<div class="editor-container">
+
+    <div class="editor-title">Редактирование пранк-метки</div>
+
+    <div class="preview-block">
+        <img src="/themes/NYiba/image.jpg" id="previewImage">
+    </div>
+
+<form method="post" action="" enctype="multipart/form-data">
+    <input type="hidden" name="type" value="img">
+
+    <div class="label">Изображение:</div>
+    <div class="row">
+        <input type="file" class="input-file" id="imgInput" name="img" accept=".jpg,.png,.jpeg">
+        <button class="btn btn-secondary" id="restoreImg" type="button"
+            onclick="document.getElementById('imgInput').value='';
+                     previewImage.src = '/themes/NYiba/image.jpg';
+                     applyImg.disabled=true;">Очистить</button>
+    </div>
+    <button class="btn btn-primary" id="applyImg" disabled>Сохранить изображение</button>
+</form>
+
+    <div class="label" style="margin-top:14px">Звук:</div>
+    <audio controls class="audio-preview" id="previewAudio">
+        <source src="/upload/spznc5f6/69517b166a247.mp3">
+    </audio>
+
+<form method="post" action="" enctype="multipart/form-data">
+    <input type="hidden" name="type" value="snd">
+<div class="row">
+        <input type="file" class="input-file" id="audioInput" name="snd" accept=".mp3">
+        <button class="btn btn-secondary" id="restoreAudio" type="button"
+            onclick="document.getElementById('audioInput').value='';
+                     previewAudio.src = '/upload/spznc5f6/69517b166a247.mp3';
+                     applyAudio.disabled=true;">Очистить</button>
+    </div>
+    <button class="btn btn-primary" id="applyAudio" disabled>Сохранить звук</button>
+</form>
+
+<!-- ====== ТУМБЛЕРЫ ДОБАВЛЕНЫ ТУТ ====== -->
+<div class="modes-wrap">
+    <div class="label" style="margin-top:14px">Режим:</div>
+
+    <div class="mode-switches" id="modeSwitches">
+        <label class="switch-row">
+            <span class="switch-title">ВЗРЫВЫ</span>
+            <span class="switch">
+                <input type="checkbox" class="mode-toggle" id="mode-explosions" name="mode" value="explosions">
+                <span class="slider"></span>
+            </span>
+        </label>
+
+        <label class="switch-row">
+            <span class="switch-title">ОШИБКА</span>
+            <span class="switch">
+                <input type="checkbox" class="mode-toggle" id="mode-error" name="mode" value="error">
+                <span class="slider"></span>
+            </span>
+        </label>
+
+        <label class="switch-row">
+            <span class="switch-title">УСТАНОВКА MAX</span>
+            <span class="switch">
+                <input type="checkbox" class="mode-toggle" id="mode-max" name="mode" value="max">
+                <span class="slider"></span>
+            </span>
+        </label>
+    </div>
+</div>
+<!-- ====== /ТУМБЛЕРЫ ====== -->
+
+<form method="post" action="" enctype="multipart/form-data">
+    <input type="hidden" name="type" value="clr">
+    <div class="label" style="margin-top:14px">&nbsp;</div>
+    <div class="row">
+        <button class="btn btn-secondary" id="applyAllRestore">Вернуть в исходное состояние</button>
+        <button type="button" class="btn btn-secondary" id="gotoResult"
+             onclick="window.location.href='/spznc5f6'">Посмотреть результат</button>
+    </div>
+</form>
+
+</div>
+
+<script>
+imgInput.onchange = () => {
+    const file = imgInput.files[0];
+    if (file) {
+        previewImage.src = URL.createObjectURL(file);
+        applyImg.disabled=false;
+    }
+};
+
+audioInput.onchange = () => {
+    const file = audioInput.files[0];
+    if (file) {
+        previewAudio.src = URL.createObjectURL(file);
+        applyAudio.disabled=false;
+        previewAudio.play();
+    }
+};
+
+/* ====== ЛОГИКА: включён только один, но можно выключить все ====== */
+(function(){
+    const toggles = Array.from(document.querySelectorAll('.mode-toggle'));
+
+    toggles.forEach(t => {
+        t.addEventListener('change', () => {
+            if (t.checked) {
+                toggles.forEach(other => {
+                    if (other !== t) other.checked = false;
+                });
+            }
+
+            // Если нужно получить активный режим:
+            const active = toggles.find(x => x.checked)?.value || null;
+            console.log('Активный режим:', active);
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
